@@ -57,30 +57,4 @@ export function populate() {
                     
         })
     }
-
-    
-    // categories.forEach(category => {
-    //     children.forEach(child => {
-    //         if (category.name === child.name) {
-    //             // recursionList.push(child)
-    //             output[category] = child.name
-    //             output[category]
-    //         }
-    //     })
-    // })
-    // recursionList.forEach(item => {
-    //     console.log(item.children)
-    // })
-
-
-    // fs.readdir(directoryPath, function (err, files) {
-        
-    //     if (err) {
-    //         return errorOut(`=> Unable to scan directory:`, err)
-    //     } 
-    //     files.forEach(function (file) {
-    
-    //         entry(file)
-    //     })
-    // })
 }
