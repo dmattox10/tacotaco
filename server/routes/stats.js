@@ -17,3 +17,5 @@ statsRouter.get('/', Cors(), async (req, res) => {
         visits: visitors
     })
 })
+
+export { statsRouter }

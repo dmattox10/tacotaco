@@ -10,6 +10,7 @@ import { populate } from './data/populate.js'
 
 
 // const statsRouter = require('./routes/statsRouter')
+import { tacoRouter } from "./routes/tacoRouter.js"
 
 const app = express()
 connectDB() // TODO only if configured to care about Auth and advanced features
@@ -19,6 +20,7 @@ app.use(cors())
 app.use(helmet())
 
 // app.use('/stats', statsRouter) // TODO E.T. Phone Home?
+app.use('/taco', tacoRouter)
 
 app.get('/', (req, res) => {
     res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
