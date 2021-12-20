@@ -2,7 +2,7 @@ import express from "express"
 import cors from 'cors'
 import helmet from 'helmet'
 
-import { connectDB } from './config/db.js'
+// import { connectDB } from './config/db.js'
 
 import { APP_PORT, APP_NAME } from "./env.js"
 import { status, errorOut, entry, operation } from './lib/logging.js'
@@ -11,7 +11,7 @@ import { status, errorOut, entry, operation } from './lib/logging.js'
 // const statsRouter = require('./routes/statsRouter')
 
 const app = express()
-connectDB() // TODO only if configured to care about Auth and advanced features
+// connectDB() // TODO only if configured to care about Auth and advanced features
 
 app.use(cors())
 app.use(helmet())
