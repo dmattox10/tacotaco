@@ -2,16 +2,18 @@ import express from "express"
 import cors from 'cors'
 import helmet from 'helmet'
 
-// import { connectDB } from './config/db.js'
+import { connectDB } from './config/db.js'
 
-import { APP_PORT, APP_NAME } from "./env.js"
+import { APP_PORT, APP_NAME } from './env.js'
 import { status, errorOut, entry, operation } from './lib/logging.js'
+import { populate } from './data/populate.js'
 
 
 // const statsRouter = require('./routes/statsRouter')
 
 const app = express()
-// connectDB() // TODO only if configured to care about Auth and advanced features
+connectDB() // TODO only if configured to care about Auth and advanced features
+populate()
 
 app.use(cors())
 app.use(helmet())
@@ -21,7 +23,7 @@ app.use(helmet())
 app.get('/', (req, res) => {
     res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
 })
-const PORT = APP_PORT || 5000
+const PORT = APP_PORT || 5050
 app.listen(PORT, () => console.log(`'Ello ${APP_NAME}.`))
 
 function handle(signal) {
