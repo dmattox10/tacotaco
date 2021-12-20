@@ -1,28 +1,20 @@
-const mongoose = require('mongoose')
-const low = require('lowdb')
-const FileSync = require('lowdb/adapters/FileSync')
-const adapter = new FileSync('db.json')
-const db = low(adapter)
+import mongoose from "mongoose"
 
-require('dotenv').config()
+import { MONGO_URI } from '../env.js'
 
-// TODO Make it keep trying to reconnect!
-
-if (!db.has('visits').value()) {
-    db.defaults({ visits: 0 })
-    .write()
+const connectDB = () => {
+    connectWithRetry()
 }
 
-const dbURI = process.env.MONGO_URI || 'mongodb://localhost:27017/PROJECTNAME'
-
-const connectDB = async () => {
-    try {
-        await mongoose.connect(dbURI)
-        console.log('Connected to DB')
-    }
-    catch (err) {
-        console.error(err.message)
-    }
+const connectWithRetry = async () => {
+    return await mongoose.connect(MONGO_URI(), err => {
+        if (err) {
+            console.error('Failed to connect on startup = retrying in 1 second', err)
+            setTimeout(connectWithRetry, 1000)
+        }
+        console.log("Connected to DB")
+        // sync(status => console.log(status))
+    })
 }
 
-module.exports = connectDB
+export { connectDB } 
