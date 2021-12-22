@@ -6,7 +6,7 @@ RUN yarn
 # Deploy
 FROM node:16-alpine
 RUN apk add dumb-init
-# ENV NODE_ENV development # In docker-compose to easily switch
+# ENV NODE_ENV development # Set in docker-compose
 EXPOSE 5000
 USER node
 WORKDIR /usr/src/app

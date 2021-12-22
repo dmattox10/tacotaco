@@ -70,4 +70,4 @@ const capabilities = async (req, res) => {
 
 prepare()
 
-export { random, custom, full }
+export { random, custom, full, capabilities }
