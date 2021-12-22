@@ -13,40 +13,24 @@ services:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "5000:5000"
-    # depends_on:
-    #   - mongo
+      - "5050:5000"
+    depends_on:
+      - mongo
     env_file: ./server/.env
     environment:
       - NODE_ENV=development
     networks:
       - tacotaco-network
-  # mongo:
-  #   image: mongo
-  #   container_name: mongo
-  #   environment: 
-  #     MONGO_INITDB_ROOT_USERNAME: REDACTED
-  #     MONGO_INITDB_ROOT_PASSWORD: REDACTED
-  #   volumes:
-  #     - ./testing/db:/data/db
-  #   ports:
-  #     - "27017:27017"
-  #   networks:
-  #     - tacotaco-network
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    image: tacotaco-client
-    container_name: client
-    command: yarn start
+  mongo:
+    image: mongo
+    container_name: mongo
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: REDACTED
+      MONGO_INITDB_ROOT_PASSWORD: REDACTED
     volumes:
-      - ./client:/usr/app #src was missing from instructions?
-      - /usr/app/node_modules #src was missing from instructions?
+      - ./testing/db:/data/db
     ports:
-      - "3000:3000"
-    depends_on:
-      - server
+      - "27017:27017"
     networks:
       - tacotaco-network
 
