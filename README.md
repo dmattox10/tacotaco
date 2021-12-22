@@ -95,7 +95,7 @@ docker-compose up -d
 ## Routes
 - __/taco/custom?__
 
-This route returns a custom taco using query parameter as follows:
+This route returns a custom taco using query parameters as follows:
 ```
 baseLayers=2&condiments=2&mixins=2&seasonings=2&shells=2
 ```
