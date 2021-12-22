@@ -1,6 +1,7 @@
-import mongoose from 'mongoose'
 import { status, errorOut, entry, operation } from '../lib/logging.js'
 import Entry from '../models/entry.js'
+import _ from 'lodash'
+import cuid from 'cuid'
 
 let tacoGod = {}
 
@@ -19,58 +20,52 @@ const pickRandom = (items) => {
 }
 
 const random = async (req, res) => {
-    const base = pickRandom(tacoGod.baseLayers)
-    const condiment = pickRandom(tacoGod.condiments)
-    const mixin = pickRandom(tacoGod.mixins)
-    const seasoning = pickRandom(tacoGod.seasonings)
-    const shell = pickRandom(tacoGod.shells)
-    const taco = {
-        bases: [base],
-        condiments: [condiment],
-        mixins: [mixin],
-        seasonings: [seasoning],
-        shells: [shell]
+    let taco = {}
+    for (const [key] of Object.entries(tacoGod)) {
+        taco[key] = []
+        let item = pickRandom(tacoGod[key])
+        taco[key].push(item)
     }
-    res.status(200).json( { taco: taco } )
+    res.status(200).json({ taco: taco })
+    
 }
 
-function noDupes(items, output) {
-    const item = pickRandom(items)
-    if (output.indexOf(item) === -1) {
-        output.push(item)
-        return output
-    } else {
-        return noDupes(items, output)
+function noDupes(numItems, items) {
+    const indices = [...Array(items.length).keys()]
+    const shuffledIndices = _.shuffle(indices)
+    let output = []
+    for (let i = 0; i < numItems - 1; i++) {
+        output.push(items[shuffledIndices.pop()])
     }
-}
-
-const result = [];
-const map = new Map();
-for (const item of array) {
-    if(!map.has(item.id)){
-        map.set(item.id, true);    // set any value to Map
-        result.push({
-            id: item.id,
-            name: item.name
-        });
-   }
+    return output
+    
 }
 
 const custom = async (req, res) => {
     let taco = {}
     for (const [key, value] of Object.entries(req.query)) {
         taco[key] = []
-        while (taco[key].length -1 < value) {
-            let item = noDupes(tacoGod[key], taco[key] = [])
-            taco[key].push(item)
-        }
+        taco[key].push(noDupes(value, tacoGod[key]))
     }
-    res.status(200).json( { taco: taco } )
+    res.status(200).json({ taco: taco })
 }
 
 const full = async (req, res) => {
     const taco = pickRandom(tacoGod.fullTacos)
     res.status(200).json( { taco: taco } )
+}
+
+const capabilities = async (req, res) => {
+    let quantities = {}
+    let uid = cuid()
+    for (const [key] of Object.entries(tacoGod)) {
+        quantities[key] = tacoGod[key].length
+    }
+    let data = {
+        uid: uid,
+        quantities, quantities
+    }
+    res.status(200).json({ server: data })
 }
 
 prepare()
