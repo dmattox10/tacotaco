@@ -34,8 +34,8 @@ const random = async (req, res) => {
     res.status(200).json( { taco: taco } )
 }
 
-const noDupes = (items, output) => {
-    const item = items[Math.floor(Math.random()*items.length)]
+function noDupes(items, output) {
+    const item = pickRandom(items)
     if (output.indexOf(item) === -1) {
         output.push(item)
         return output
@@ -44,20 +44,33 @@ const noDupes = (items, output) => {
     }
 }
 
+const result = [];
+const map = new Map();
+for (const item of array) {
+    if(!map.has(item.id)){
+        map.set(item.id, true);    // set any value to Map
+        result.push({
+            id: item.id,
+            name: item.name
+        });
+   }
+}
+
 const custom = async (req, res) => {
     let taco = {}
     for (const [key, value] of Object.entries(req.query)) {
+        taco[key] = []
         while (taco[key].length -1 < value) {
-            taco[key].push()
+            let item = noDupes(tacoGod[key], taco[key] = [])
+            taco[key].push(item)
         }
     }
-
-    res.status(200).json( { message: 'hi' } )
+    res.status(200).json( { taco: taco } )
 }
 
 const full = async (req, res) => {
     const taco = pickRandom(tacoGod.fullTacos)
-    res.status(200).json( { tacos: taco } )
+    res.status(200).json( { taco: taco } )
 }
 
 prepare()
