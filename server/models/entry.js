@@ -20,6 +20,10 @@ const EntrySchema = new mongoose.Schema({
     path: {
         type: String,
         required: true
+    },
+    likes: {
+        type: Object,
+        required: false
     }
 })
 

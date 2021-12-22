@@ -6,7 +6,7 @@ const status = message => {
     log(chalk.blue(message))
 }
 
-const errorOut = (code='ERROR', message) => {
+const errorOut = (message, code='ERROR') => {
     log(chalk.bgRed.black.bold(` ${code} `) + chalk.bold.red(` ${message}`))
 }
 

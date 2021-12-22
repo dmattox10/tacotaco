@@ -1,5 +1,6 @@
 import { status, errorOut, entry, operation } from '../lib/logging.js'
 import Entry from '../models/entry.js'
+import Complete from '../models/complete.js'
 import _ from 'lodash'
 import cuid from 'cuid'
 
@@ -19,7 +20,8 @@ const pickRandom = (items) => {
     return item
 }
 
-const random = async (req, res) => {
+const getRandom = async (req, res) => {
+    prepare()
     let taco = {}
     for (const [key] of Object.entries(tacoGod)) {
         taco[key] = []
@@ -41,7 +43,8 @@ function noDupes(numItems, items) {
     
 }
 
-const custom = async (req, res) => {
+const getCustom = async (req, res) => {
+    prepare()
     let taco = {}
     for (const [key, value] of Object.entries(req.query)) {
         taco[key] = []
@@ -50,9 +53,32 @@ const custom = async (req, res) => {
     res.status(200).json({ taco: taco })
 }
 
-const full = async (req, res) => {
+const getFull = async (req, res) => {
     const taco = pickRandom(tacoGod.fullTacos)
     res.status(200).json( { taco: taco } )
+}
+
+const getComplete = async (req,res) => {
+    prepare()
+    let output = {}
+    let completeTacos = await Complete.find()
+    let choice = pickRandom(completeTacos)
+    choice.components.forEach(component => {
+        Entry.findById({ _id: component.id }, (err, entry) => {
+            if (err) {
+                errorOut(err)
+            } else {
+                if (!output[entry.category]) {
+                    output[entry.category] = []
+                }
+                output[entry.category].push(entry)
+            }
+        })
+    })
+    for (const [key], [value] of Object.entries(choice)) {
+        output[key] = [value]
+    }
+    res.status(200).json({ taco: output })
 }
 
 const capabilities = async (req, res) => {
@@ -68,6 +94,43 @@ const capabilities = async (req, res) => {
     res.status(200).json({ server: data })
 }
 
-prepare()
+const postFull = async (req, res) => {
+    const { _id, vote } = req.body
+    const filter = {
+        _id: _id 
+    }
+    const actionString = `likes.${vote}`
+    const update = { $inc: { [actionString] : 1 }}
+    Entry.findByIdAndUpdate(filter, update).exec(entry => {
+        res.status(201).json({ taco: entry })
+    })
+}
 
-export { random, custom, full, capabilities }
+// const postRandom = async (req, res) => {
+//     const { ids, vote, name } = req.body
+//     const filter = {
+//         components: ids
+//     }
+//     // const actionString = `likes[${vote}]`
+//     const actionString = `likes.${vote}`
+//     const update = { $inc: { [actionString] : 1 }}
+//     Complete.findOneAndUpdate(filter, update).exec(entry => {
+//         res.status(201).json({ taco: entry })
+//     })
+// }
+
+const postCustom = async (req, res) => {
+    const { ids, vote, name } = req.body
+    const filter = {
+        components: ids
+    }
+    // const actionString = `likes[${vote}]`
+    const actionString = `likes.${vote}`
+    const update = { $inc: { [actionString] : 1 }}
+    Complete.findOneAndUpdate(filter, update).exec(entry => {
+        res.status(201).json({ taco: entry })
+    })  
+}
+
+
+export { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete }
