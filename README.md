@@ -28,9 +28,6 @@ __What I Learned__
 - Populate the DB from the list of files we want
 - Parse markdown files (a shame there's no metadata!)
 
-__What I'd Show Off__
-The randomization functions in tacoController.js are very clean, some of my best work.
-
 ## Getting Started
 APP_PORT must match SECOND port declaration in docker-compose.yml
 
