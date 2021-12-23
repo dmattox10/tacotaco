@@ -1,5 +1,5 @@
 import { verify } from 'jsonwebtoken'
-import { SHARED_SECRET } from './env'
+import { SHARED_SECRET, BYPASS_SECRET } from './env'
 
 export function checkAuth(req, res, next) {
     const token = req.get('x-auth-token')
@@ -20,5 +20,14 @@ export function checkAuth(req, res, next) {
                 return res.status(400).json({ error })
             }
         }
+    }
+}
+
+export function bypassAuth(req, res, next) {
+    const token = req.get('x-auth-token')
+    if (!token) {
+        return res.status(401).json({ error: 'Access denied, missing token' })
+    } else {
+        next()
     }
 }

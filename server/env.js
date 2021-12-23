@@ -10,7 +10,8 @@ const {
     MONGO_HOST, 
     MONGO_PORT, 
     MONGO_USER, 
-    MONGO_PASS
+    MONGO_PASS,
+    BYPASS_SECRET
 } = process.env
 
 const MONGO_URI = (env = NODE_ENV) => { // TODO let vs const here?
@@ -28,5 +29,6 @@ export {
     SHARED_SECRET,
     REFRESH_SECRET,
     MONGO_URI,
-    APP_NAME
+    APP_NAME,
+    BYPASS_SECRET
 }
