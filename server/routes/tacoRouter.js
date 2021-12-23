@@ -10,14 +10,14 @@ const bruteforce = new ExpressBrute(store)
 
 const tacoRouter = express.Router()
 
-tacoRouter.get('/random', cors(), bruteforce.prevent, getRandom)
-tacoRouter.get('/custom', cors(), bruteforce.prevent, getCustom)
-tacoRouter.get('/full', cors(), bruteforce.prevent, getFull) 
-tacoRouter.get('/complete', cors(), bruteforce.prevent, getComplete)
-tacoRouter.get('/capabilities', cors(), bruteforce.prevent, capabilities)
+tacoRouter.get('/random', cors(), getRandom)
+tacoRouter.get('/custom', cors(), getCustom)
+tacoRouter.get('/full', cors(), getFull) 
+tacoRouter.get('/complete', cors(), getComplete)
+tacoRouter.get('/capabilities', cors(), capabilities)
 
-tacoRouter.post('/custom', cors(), bypassAuth, bruteforce.prevent, postCustom)
-tacoRouter.post('/full', cors(), bypassAuth, bruteforce.prevent, postFull)
+tacoRouter.post('/custom', cors(), bypassAuth, postCustom)
+tacoRouter.post('/full', cors(), bypassAuth, postFull)
 
 export { tacoRouter }
 

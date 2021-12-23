@@ -75,7 +75,7 @@ const getComplete = async (req,res) => {
             }
         })
     })
-    for (const [key], [value] of Object.entries(choice)) {
+    for (const [key, value] of Object.entries(choice)) {
         output[key] = [value]
     }
     res.status(200).json({ taco: output })
@@ -95,13 +95,14 @@ const capabilities = async (req, res) => {
 }
 
 const postFull = async (req, res) => {
+    console.log(req.body)
     const { _id, vote } = req.body
     const filter = {
         _id: _id 
     }
     const actionString = `likes.${vote}`
     const update = { $inc: { [actionString] : 1 }}
-    Entry.findByIdAndUpdate(filter, update).exec(entry => {
+    Entry.findByIdAndUpdate(filter, update).then(entry => {
         res.status(201).json({ taco: entry })
     })
 }
@@ -124,13 +125,17 @@ const postCustom = async (req, res) => {
     const filter = {
         components: ids
     }
+    const options = {
+        upsert: true
+    }
     // const actionString = `likes[${vote}]`
     const actionString = `likes.${vote}`
-    const update = { $inc: { [actionString] : 1 }}
-    Complete.findOneAndUpdate(filter, update).exec(entry => {
+    const update = { $inc: { [actionString] : 1 }, name: name}
+    Complete.findOneAndUpdate(filter, update, options).then(entry => {
         res.status(201).json({ taco: entry })
     })  
 }
 
+prepare()
 
 export { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete }

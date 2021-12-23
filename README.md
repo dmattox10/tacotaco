@@ -35,15 +35,20 @@ __What I Learned__
 ## Getting Started
 APP_PORT must match SECOND port declaration in docker-compose.yml
 
+Set the BYPASS_SECRET to send a predetermined passphrase or set SHARED_SECRET and REFRESH_SECRET as well as changing the postRoutes to use checkAuth instead of bypassAuth to use a separate JWT auth microservice like my [mx-auth](https://github.com/dmattox10/mx-auth)
+
+Secrets should be sent as __x-auth-token__ in the headers.
+
 __Sample server/.env file__
 ```
 APP_PORT = 5000
 APP_NAME = TacoTaco
 NODE_ENV = testing
 MONGO_HOST = localhost
-MONGO_USER = dmattox10
-MONGO_PASS = vanQuish87
+MONGO_USER = youruser
+MONGO_PASS = vanishing_secret
 MONGO_PORT = 27017
+BYPASS_SECRET = shhh
 ```
 __Sample docker-compose.yml__
     ---

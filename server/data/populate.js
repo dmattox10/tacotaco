@@ -7,10 +7,14 @@ import DirectoryTree from 'directory-tree'
 import Entry from '../models/entry.js'
 
 const store = async (entry, options) => {
-    const document = new Entry(entry, options)
-    await document.save(err => {
-        if (err) errorOut('Could not save document: ', err)
+    // const document = new Entry(entry, options)
+    const filter = { html: entry.html}
+    Entry.findOneAndUpdate(filter, entry, options).exec(record => {
+        operation('=> Saved ', record)
     })
+    // await document.save(err => {
+    //     if (err) errorOut('Could not save document: ', err)
+    // })
 }
 
 export function populate() {

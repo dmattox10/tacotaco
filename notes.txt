@@ -1,0 +1,81 @@
+Receieved response:
+
+{
+    "taco": {
+        "$__": [
+            {
+                "activePaths": {
+                    "paths": {
+                        "components": "init",
+                        "name": "init",
+                        "_id": "init",
+                        "__v": "init",
+                        "likes": "init"
+                    },
+                    "states": {
+                        "ignore": {},
+                        "default": {},
+                        "init": {
+                            "_id": true,
+                            "components": true,
+                            "__v": true,
+                            "likes": true,
+                            "name": true
+                        },
+                        "modify": {},
+                        "require": {}
+                    },
+                    "stateNames": [
+                        "require",
+                        "modify",
+                        "init",
+                        "default",
+                        "ignore"
+                    ]
+                },
+                "emitter": {
+                    "_events": {},
+                    "_eventsCount": 0,
+                    "_maxListeners": 0
+                },
+                "defaults": true,
+                "strictMode": true,
+                "selected": {},
+                "_id": "61c4a7209b56b4c3f8391c39"
+            }
+        ],
+        "$isNew": [
+            false
+        ],
+        "_doc": [
+            {
+                "_id": "61c4a7209b56b4c3f8391c39",
+                "components": [
+                    "61c49cda5c90703564dbedb7",
+                    "61c49ee189770f9c259d197d",
+                    "61c1ff4d8038f5a49cd5a337",
+                    "61c4a1dcd88b5932967fcc98",
+                    "61c201893c8fe70a043d308b",
+                    "61c4a051b279bb1fb643c783"
+                ],
+                "__v": 0,
+                "likes": {
+                    "true": 2,
+                    "false": 2
+                },
+                "name": "my first taco"
+            }
+        ],
+        "$init": [
+            true
+        ]
+    }
+}
+
+from GET taco/complete
+
+and the error log has undefined _id's
+
+ALSO
+
+GET taco/custom yields zero results.

@@ -18,6 +18,7 @@ populate()
 
 app.use(cors())
 app.use(helmet())
+app.use(express.json())
 
 // app.use('/stats', statsRouter) // TODO E.T. Phone Home?
 app.use('/taco', tacoRouter)

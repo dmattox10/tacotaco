@@ -1,5 +1,5 @@
-import { verify } from 'jsonwebtoken'
-import { SHARED_SECRET, BYPASS_SECRET } from './env'
+import verify from 'jsonwebtoken'
+import { SHARED_SECRET, BYPASS_SECRET } from './env.js'
 
 export function checkAuth(req, res, next) {
     const token = req.get('x-auth-token')
