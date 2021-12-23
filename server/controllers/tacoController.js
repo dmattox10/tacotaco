@@ -59,24 +59,44 @@ const getFull = async (req, res) => {
 }
 
 const getComplete = async (req,res) => {
-    prepare()
+    const { id } = req.params
     let output = {}
-    let completeTacos = await Complete.find()
-    let choice = pickRandom(completeTacos)
-    choice.components.forEach(component => {
-        Entry.findById({ _id: component.id }, (err, entry) => {
-            if (err) {
-                errorOut(err)
-            } else {
-                if (!output[entry.category]) {
-                    output[entry.category] = []
+    if (id) {
+        let completeTaco = await Complete.findById({ _id: id })
+        completeTaco.components.forEach(component => {
+            Entry.findById({ _id: component.id }, (err, entry) => {
+                if (err) {
+                    errorOut(err)
+                } else {
+                    if (!output[entry.category]) {
+                        output[entry.category] = []
+                    }
+                    output[entry.category].push(entry)
                 }
-                output[entry.category].push(entry)
-            }
+            })
         })
-    })
-    for (const [key, value] of Object.entries(choice)) {
-        output[key] = [value]
+        for (const [key, value] of Object.entries(completeTaco)) {
+            output[key] = [value]
+        }
+    } else {
+        prepare()
+        let completeTacos = await Complete.find()
+        let choice = pickRandom(completeTacos)
+        choice._doc[0].components.forEach(component => {
+            Entry.findById({ _id: component.id }, (err, entry) => {
+                if (err) {
+                    errorOut(err)
+                } else {
+                    if (!output[entry.category]) {
+                        output[entry.category] = []
+                    }
+                    output[entry.category].push(entry)
+                }
+            })
+        })
+        for (const [key, value] of Object.entries(choice._doc[0])) {
+            output[key] = [value]
+        }
     }
     res.status(200).json({ taco: output })
 }
@@ -121,9 +141,12 @@ const postFull = async (req, res) => {
 // }
 
 const postCustom = async (req, res) => {
-    const { ids, vote, name } = req.body
-    const filter = {
-        components: ids
+    const { _id, ids, vote, name } = req.body
+    let filter = {}
+    if (_id) {
+        filter._id = _id 
+    } else {
+        filter.components = ids
     }
     const options = {
         upsert: true

@@ -4,6 +4,8 @@ This API will serve up delicious combinations (with config options) of tacos!
 
 live [HERE](https://tacotaco.danielmattox.com)
 
+for now, email me for an API key if you would like to POST on my instance.
+
 <hr>
 
 ## About this project
@@ -102,7 +104,12 @@ docker-compose build
 docker-compose up -d
 ```
 ## Routes
-- __/taco/custom?__
+
+- __GET /taco/complete?id=ID__
+
+This route has an optional ID to get a specific complete taco having been saved by posting /taco/custom with the contents of either a custom or random taco. If no ID is specified, it will get a random user saved taco.
+
+- __GET /taco/custom?__
 
 This route returns a custom taco using query parameters as follows:
 ```
@@ -128,7 +135,21 @@ any one of the items in any of those arrays is expected to have the structure:
 ```
 html is the original markdown "card" rendered to html as intended by the author.
 
-- __/taco/full__
+- __POST /taco/custom__
+
+This route accepts entries for "Custom", "Random", and "Complete"
+This route expects a raw JSON body containing:
+```
+{
+    _id: ObjectID,
+    ids: ARRAY,
+    vote: BOOLEAN,
+    name: STRING
+}
+```
+The _id is the _id of the custom taco from the GET (if it existed because this route also covers random tacos), ids are all of the components in the taco, the vote is true or false depending on like or dislike, and the name is only able to be edited if the combo was previously without a custom name.
+
+- __GET /taco/full__
 
 This route returns a randomly chosen taco from the list of pre-constructed full taco recipes that exist in the data from tacofancy. 
 This route requires special handling contrasting how the other two taco routes are designed to provide a response that can be rendered by the same client logic.
@@ -141,7 +162,16 @@ This route requires special handling contrasting how the other two taco routes a
 ```
 html is the original markdown "card" rendered to html as intended by the author.
 
-- __/taco/random__
+- __POST /taco/full__
+
+This route allows for likes/dislikes on a full, precreated taco from the tacofancy data. The server expects a raw JSON body containing:
+```
+{
+    _id: ObjectID, 
+    vote: BOOLEAN
+}
+
+- __GET /taco/random__
 
 This route returns a randomly chosen taco using one item from each 
 category, the outputs in the reply are arrays for consistency.
@@ -155,7 +185,7 @@ category, the outputs in the reply are arrays for consistency.
 }}
 ```
 
-- __/taco/capabilities__
+- __GET /taco/capabilities__
 
 This route is for the benefit of a front end client, providing a rudimentary way of preventing any request from exceeding the number of available items, as there is no handling for this built into the server [TODO]
 ```
