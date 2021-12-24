@@ -141,13 +141,13 @@ This route accepts entries for "Custom", "Random", and "Complete"
 This route expects a raw JSON body containing:
 ```
 {
-    _id: ObjectID,
+    id: ObjectID,
     ids: ARRAY,
     vote: BOOLEAN,
     name: STRING
 }
 ```
-The _id is the _id of the custom taco from the GET (if it existed because this route also covers random tacos), ids are all of the components in the taco, the vote is true or false depending on like or dislike, and the name is only able to be edited if the combo was previously without a custom name.
+The id is the _id of the custom taco from the GET (if it existed because this route also covers random tacos), ids are all of the components in the taco, the vote is true or false depending on like or dislike, and the name is only able to be edited if the combo was previously without a custom name.
 
 - __GET /taco/full__
 
@@ -167,7 +167,7 @@ html is the original markdown "card" rendered to html as intended by the author.
 This route allows for likes/dislikes on a full, precreated taco from the tacofancy data. The server expects a raw JSON body containing:
 ```
 {
-    _id: ObjectID, 
+    id: ObjectID, 
     vote: BOOLEAN
 }
 
