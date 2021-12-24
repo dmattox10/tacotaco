@@ -217,6 +217,7 @@ const postFull = async (req, res) => {
 const postCustom = async (req, res) => {
     const { id, ids, vote, name } = req.body
     let filter = {}
+    let update = {}
     const ObjectId = mongoose.Types.ObjectId
     try {
         let customId = ObjectId(id)
@@ -224,6 +225,7 @@ const postCustom = async (req, res) => {
             filter.id = customId
         } else {
             filter.components = ids
+            update.name = name
         }
         const options = {
             upsert: true,
@@ -231,9 +233,10 @@ const postCustom = async (req, res) => {
         }
         // const actionString = `likes[${vote}]`
         const actionString = `likes.${vote}`
-        const update = { $inc: { [actionString] : 1 }, name: name}
+        update.$inc = { [actionString] : 1 }
+        // const update = { $inc: { [actionString] : 1 }}
         Complete.findOneAndUpdate(filter, update, options).then(entry => {
-            res.status(201).json({ taco: entry })
+            res.status(201).json({ taco: entry }) 
         })  
     } catch (InvalidObjectIdException) {
         errorOut('invalid object ID')
