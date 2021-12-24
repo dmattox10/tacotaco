@@ -7,14 +7,10 @@ import DirectoryTree from 'directory-tree'
 import Entry from '../models/entry.js'
 
 const store = async (entry, options) => {
-    // const document = new Entry(entry, options)
     const filter = { html: entry.html}
-    Entry.findOneAndUpdate(filter, entry, options).exec(record => {
-        operation('=> Saved ', record)
+    Entry.findOneAndUpdate(filter, entry, options).then(record => {
+        operation('=> Database: ', record)
     })
-    // await document.save(err => {
-    //     if (err) errorOut('Could not save document: ', err)
-    // })
 }
 
 export function populate() {
@@ -45,14 +41,14 @@ export function populate() {
                     const firstLine = fileContents.split('\n').shift()
                     const html = marked.parse(fileContents)
                     let entry = {
-                        _id: mongoose.Types.ObjectId(),
                         category: itemCategory,
                         name: firstLine,
                         html: html,
                         path: item.path
                     }
                     let options = {
-                        upsert: true
+                        upsert: true,
+                        new: true
                     }
                     store(entry, options)
                 }

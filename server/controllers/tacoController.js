@@ -3,6 +3,7 @@ import Entry from '../models/entry.js'
 import Complete from '../models/complete.js'
 import _ from 'lodash'
 import cuid from 'cuid'
+import mongoose from 'mongoose'
 
 let tacoGod = {}
 
@@ -54,51 +55,118 @@ const getCustom = async (req, res) => {
 }
 
 const getFull = async (req, res) => {
+    const { id } = req.query
+    if (id) {
+        const ObjectId = mongoose.Types.ObjectId
+        try {
+            let validId = ObjectId(id)
+            await Entry.findOne({ id: validId }).then(entry => {
+                if (entry) {
+                    res.status(200).json({ taco: entry })
+                } else {
+                    res.status(404).json({ error: 'no bueno.' })
+                }
+            })
+        } catch (InvalidObjectIdException) {
+            errorOut('invalid object ID')
+        }
+    }
     const taco = pickRandom(tacoGod.fullTacos)
     res.status(200).json( { taco: taco } )
 }
 
 const getComplete = async (req,res) => {
-    const { id } = req.params
+    const { id } = req.query
     let output = {}
     if (id) {
-        let completeTaco = await Complete.findById({ _id: id })
-        completeTaco.components.forEach(component => {
-            Entry.findById({ _id: component.id }, (err, entry) => {
-                if (err) {
-                    errorOut(err)
+        const ObjectId = mongoose.Types.ObjectId
+        try {
+            let validId = ObjectId(id)
+            await Complete.findOne({ id: validId }).then(taco => {
+                if (taco) {
+                    output._id = taco._id
+                    output.likes = taco.likes
+                    taco.components.forEach(component => {
+                        try {
+                            let componentId = ObjectId(component)
+                            Entry.findOne({ id: componentId }).then(entry => {
+                                if (entry) {
+                                    status(entry)
+                                    if (!output[entry.category]) {
+                                        output[entry.category] = []
+                                    }
+                                    output[entry.category].push(entry)
+                                }
+                            })
+                        } catch (InvalidObjectIdException) {
+                            errorOut('invalid object ID')
+                        } 
+                    })
+                    // for (const [key, value] of Object.entries(taco)) {
+                    //     output[key] = [value]
+                    // }
                 } else {
-                    if (!output[entry.category]) {
-                        output[entry.category] = []
-                    }
-                    output[entry.category].push(entry)
+                    res.status(404).json({ error: 'no bueno.' })
                 }
             })
-        })
-        for (const [key, value] of Object.entries(completeTaco)) {
-            output[key] = [value]
-        }
-    } else {
+        } catch (InvalidObjectIdException) {
+            errorOut('invalid object ID')
+        } 
+    } else { // send random taco
         prepare()
         let completeTacos = await Complete.find()
         let choice = pickRandom(completeTacos)
-        choice._doc[0].components.forEach(component => {
-            Entry.findById({ _id: component.id }, (err, entry) => {
-                if (err) {
-                    errorOut(err)
-                } else {
-                    if (!output[entry.category]) {
-                        output[entry.category] = []
-                    }
-                    output[entry.category].push(entry)
-                }
-            })
-        })
-        for (const [key, value] of Object.entries(choice._doc[0])) {
-            output[key] = [value]
+        // choice.components.forEach(component => {
+        //     status(component)
+        //     Entry.findOne({ id: component }, (err, entry) => {
+        //         status(entry)
+        //         if (err) {
+        //             errorOut(err)
+        //             res.status(500).json({ error: 'sorry.'})
+        //         } else {
+        //             if (!output[entry.category]) {
+        //                 output[entry.category] = []
+        //             }
+        //             output[entry.category].push(entry)
+        //         }
+        //     })
+        // })
+        // model.find({
+        //     '_id': { $in: [
+        //         mongoose.Types.ObjectId('4ed3ede8844f0f351100000c'),
+        //         mongoose.Types.ObjectId('4ed3f117a844e0471100000d'), 
+        //         mongoose.Types.ObjectId('4ed3f18132f50c491100000e')
+        //     ]}
+        // }, function(err, docs){
+        //      console.log(docs);
+        // });
+        let filter = {
+            _id: {
+                $in: choice.components
+            }
         }
+        Entry.find(filter).then(components => {
+            if (components) {
+                components.forEach(component => status(component))
+                output.components = components
+                output._id = choice._id
+                output.likes = choice.likes
+                output.name = choice.name
+                res.status(200).json({ taco: output })
+            }
+        })
+        // let components = choice.components.map(component => {
+        //     Entry.find({ id: component }).then(entries => {
+        //         if (entries) {
+        //             entries.forEach(entry => status(entry))
+
+        //         }
+        //     })
+        // })
+        // for (const [key, value] of Object.entries(choice)) {
+        //     output[key] = [value]
+        // }
     }
-    res.status(200).json({ taco: output })
 }
 
 const capabilities = async (req, res) => {
@@ -116,15 +184,21 @@ const capabilities = async (req, res) => {
 
 const postFull = async (req, res) => {
     console.log(req.body)
-    const { _id, vote } = req.body
-    const filter = {
-        _id: _id 
-    }
-    const actionString = `likes.${vote}`
-    const update = { $inc: { [actionString] : 1 }}
-    Entry.findByIdAndUpdate(filter, update).then(entry => {
-        res.status(201).json({ taco: entry })
-    })
+    const { id, vote } = req.body
+    const ObjectId = mongoose.Types.ObjectId
+    try {
+        let fullId = ObjectId(id)
+        const filter = {
+            id: fullId
+        }
+        const actionString = `likes.${vote}`
+        const update = { $inc: { [actionString] : 1 }}
+        Entry.findOneAndUpdate(filter, update).then(entry => {
+            res.status(201).json({ taco: entry })
+        })
+    } catch (InvalidObjectIdException) {
+        errorOut('invalid object ID')
+    } 
 }
 
 // const postRandom = async (req, res) => {
@@ -141,22 +215,29 @@ const postFull = async (req, res) => {
 // }
 
 const postCustom = async (req, res) => {
-    const { _id, ids, vote, name } = req.body
+    const { id, ids, vote, name } = req.body
     let filter = {}
-    if (_id) {
-        filter._id = _id 
-    } else {
-        filter.components = ids
-    }
-    const options = {
-        upsert: true
-    }
-    // const actionString = `likes[${vote}]`
-    const actionString = `likes.${vote}`
-    const update = { $inc: { [actionString] : 1 }, name: name}
-    Complete.findOneAndUpdate(filter, update, options).then(entry => {
-        res.status(201).json({ taco: entry })
-    })  
+    const ObjectId = mongoose.Types.ObjectId
+    try {
+        let customId = ObjectId(id)
+        if (id) {
+            filter.id = customId
+        } else {
+            filter.components = ids
+        }
+        const options = {
+            upsert: true,
+            new: true
+        }
+        // const actionString = `likes[${vote}]`
+        const actionString = `likes.${vote}`
+        const update = { $inc: { [actionString] : 1 }, name: name}
+        Complete.findOneAndUpdate(filter, update, options).then(entry => {
+            res.status(201).json({ taco: entry })
+        })  
+    } catch (InvalidObjectIdException) {
+        errorOut('invalid object ID')
+    } 
 }
 
 prepare()
