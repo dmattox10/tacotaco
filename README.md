@@ -172,7 +172,7 @@ This route allows for likes/dislikes on a full, precreated taco from the tacofan
 }
 
 - __GET /taco/random__
-
+```
 This route returns a randomly chosen taco using one item from each 
 category, the outputs in the reply are arrays for consistency.
 ```
