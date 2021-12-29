@@ -25,9 +25,11 @@ const getRandom = async (req, res) => {
     prepare()
     let taco = {}
     for (const [key] of Object.entries(tacoGod)) {
-        taco[key] = []
-        let item = pickRandom(tacoGod[key])
-        taco[key].push(item)
+        if (key !== 'fullTacos') {
+            taco[key] = []
+            let item = pickRandom(tacoGod[key])
+            taco[key].push(item)
+        }
     }
     res.status(200).json({ taco: taco })
     
