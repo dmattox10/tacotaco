@@ -1,5 +1,4 @@
 import { marked } from 'marked'
-import mongoose from 'mongoose'
 import fs from 'fs'
 import { status, errorOut, entry, operation } from '../lib/logging.js'
 import DirectoryTree from 'directory-tree'

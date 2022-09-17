@@ -5,7 +5,7 @@ import helmet from 'helmet'
 import { connectDB } from './config/db.js'
 
 import { APP_PORT, APP_NAME } from './env.js'
-import { status, errorOut, entry, operation } from './lib/logging.js'
+import { errorOut, operation } from './lib/logging.js'
 import { populate } from './data/populate.js'
 
 
