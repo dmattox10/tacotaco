@@ -190,19 +190,19 @@ const getComplete = async (req,res) => {
     }
 }
 
-const capabilities = async (req, res) => {
-    let quantities = {}
-    let uid = cuid()
-    const tacoGod = await prepare()
-    for (const [key] of Object.entries(tacoGod)) {
-        quantities[key] = tacoGod[key].length
-    }
-    let data = {
-        uid: uid,
-        quantities, quantities
-    }
-    res.status(200).json({ server: data })
-}
+// const capabilities = async (req, res) => {
+//     let quantities = {}
+//     let uid = cuid()
+//     const tacoGod = await prepare()
+//     for (const [key] of Object.entries(tacoGod)) {
+//         quantities[key] = tacoGod[key].length
+//     }
+//     let data = {
+//         uid: uid,
+//         quantities, quantities
+//     }
+//     res.status(200).json({ server: data })
+// }
 
 const postFull = async (req, res) => {
     console.log(req.body)

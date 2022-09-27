@@ -23,7 +23,7 @@ tacoRouter.get('/random', bruteforce.prevent,getRandom)
 tacoRouter.get('/custom', bruteforce.prevent, getCustom)
 tacoRouter.get('/full', bruteforce.prevent, getFull) 
 tacoRouter.get('/complete', bruteforce.prevent, getComplete)
-tacoRouter.get('/capabilities', bruteforce.prevent, capabilities)
+// tacoRouter.get('/capabilities', bruteforce.prevent, capabilities)
 
 // tacoRouter.post('/custom', bruteforce.prevent, authMethod(), postCustom)
 // tacoRouter.post('/full', bruteforce.prevent, authMethod(), postFull)
