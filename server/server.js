@@ -1,27 +1,34 @@
-import express from "express"
-import cors from 'cors'
-import helmet from 'helmet'
+const express = require('express')
+const cors = require('cors')
+const helmet = require('helmet')
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
 
-import { connectDB } from './config/db.js'
-
-import { APP_PORT, APP_NAME } from './env.js'
-import { errorOut, operation } from './lib/logging.js'
-import { populate } from './data/populate.js'
+require('rootpath')()
 
 
-// const statsRouter = require('./routes/statsRouter')
-import { tacoRouter } from "./routes/tacoRouter.js"
+const { connectDB } = require('config/db.js')
+
+const { APP_PORT, APP_NAME, WHITELIST_URLS } = require('./env')
+const { errorOut, operation } = require('lib/logging.js')
+const { authRouter } = require('routes/authRouter')
+const { tacoRouter } = require('routes/tacoRouter.js')
 
 const app = express()
-connectDB() // TODO only if configured to care about Auth and advanced features
-populate()
 
-app.use(cors())
+const jsonParser = bodyParser.json()
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+app.use(cors({
+  origin: WHITELIST_URLS
+}))
 app.use(helmet())
-app.use(express.json())
+app.use(morgan('dev'))
+app.use(jsonParser)
+app.use(urlencodedParser)
 
-// app.use('/stats', statsRouter) // TODO E.T. Phone Home?
-app.use('/taco', tacoRouter)
+app.use('/v1/taco', tacoRouter)
+app.use('/v1/auth', authRouter)
 
 app.get('/', (req, res) => {
     res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')

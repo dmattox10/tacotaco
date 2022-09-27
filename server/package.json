@@ -1,25 +1,31 @@
 {
   "name": "server",
-  "type": "module",
   "version": "0.1.0",
   "main": "server.js",
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "chalk": "^5.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "chalk": "4.1.0",
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
-    "directory-tree": "^3.0.1",
+    "directory-tree-promise": "^2.0.1",
     "dompurify": "^2.3.4",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-brute": "^1.0.1",
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^2.3.0",
     "lodash": "^4.17.21",
-    "lowdb": "^1.0.0",
     "marked": "^4.0.8",
-    "mongoose": "^6.1.2",
-    "parse-md": "^2.0.4"
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.3",
+    "parse-md": "^2.0.4",
+    "rootpath": "^0.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "sqlite3": "^5.1.1"
   }
 }

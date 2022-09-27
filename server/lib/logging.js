@@ -1,21 +1,19 @@
-import chalk from 'chalk'
+const chalk = require('chalk')
 
 const log = console.log
 
-const status = message => {
+exports.status = message => {
     log(chalk.blue(message))
 }
 
-const errorOut = (message, code='ERROR') => {
+exports.errorOut = (message, code='ERROR') => {
     log(chalk.bgRed.black.bold(` ${code} `) + chalk.bold.red(` ${message}`))
 }
 
-const entry = message => {
+exports.entry = message => {
     log(chalk.bgGray.white.bold(' entry ') + chalk.bold.white(` ${message}`))
 }
 
-const operation = (op, message) => {
+exports.operation = (op, message) => {
     log(chalk.bgGray.white.bold(` ${op} `) + chalk.bold.white(` ${message}`))
 }
-
-export { status, errorOut, entry, operation }
