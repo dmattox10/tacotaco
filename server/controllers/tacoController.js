@@ -1,19 +1,37 @@
-import { status, errorOut, entry, operation } from '../lib/logging.js'
-import Entry from '../models/entry.js'
-import Complete from '../models/complete.js'
-import _ from 'lodash'
-import cuid from 'cuid'
-import mongoose from 'mongoose'
+// import { status, errorOut, entry, operation } from '../lib/logging.js'
+// import Entry from '../models/entry.js'
+// import Complete from '../models/complete.js'
+const _ = require('lodash')
+const cuid = require('cuid')
+const knex = require('../knex/knex')
+// import mongoose from 'mongoose'
 
-let tacoGod = {}
+const tacoGod = {}
 
 const prepare = async () => {
-    tacoGod.baseLayers = await Entry.find( {category: 'base_layers'} ),
-    tacoGod.condiments = await Entry.find( {category: 'condiments'} ), 
-    tacoGod.mixins = await Entry.find( {category: 'mixins'} ),
-    tacoGod.seasonings = await Entry.find( {category: 'seasonings'} ),
-    tacoGod.shells = await Entry.find( {category: 'shells'} ),
-    tacoGod.fullTacos = await Entry.find( {category: 'full_tacos'} )
+
+    const [baseLayers] = await knex
+      .table('entries')
+      .where({category: 'base_layers'})
+    const [condiments] = await knex
+      .table('entries')
+      .where({category: 'base_layers'})
+    const [mixins] = await knex
+      .table('entries')
+      .where({category: 'base_layers'})
+    const [seasonings] = await knex
+      .table('entries')
+      .where({category: 'base_layers'})
+    const [shells] = await knex
+      .table('entries')
+      .where({category: 'base_layers'})
+    tacoGod.baseLayers = baseLayers
+    tacoGod.condiments = condiments
+    tacoGod.mixins = mixins
+    tacoGod.seasonings = seasonings
+    tacoGod.shells = shells
+
+    return tacoGod
 }
 
 const pickRandom = (items) => {
@@ -22,7 +40,7 @@ const pickRandom = (items) => {
 }
 
 const getRandom = async (req, res) => {
-    prepare()
+    const tacoGod = await prepare()
     let taco = {}
     for (const [key] of Object.entries(tacoGod)) {
         if (key !== 'fullTacos') {
@@ -47,7 +65,7 @@ function noDupes(numItems, items) {
 }
 
 const getCustom = async (req, res) => {
-    prepare()
+    const tacoGod = await prepare()
     let taco = {}
     for (const [key, value] of Object.entries(req.query)) {
         taco[key] = []
@@ -174,6 +192,7 @@ const getComplete = async (req,res) => {
 const capabilities = async (req, res) => {
     let quantities = {}
     let uid = cuid()
+    const tacoGod = await prepare()
     for (const [key] of Object.entries(tacoGod)) {
         quantities[key] = tacoGod[key].length
     }
@@ -247,4 +266,4 @@ const postCustom = async (req, res) => {
 
 prepare()
 
-export { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete }
+module.exports = { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete }

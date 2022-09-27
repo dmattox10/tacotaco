@@ -1,13 +1,13 @@
-import verify from 'jsonwebtoken'
-import { SHARED_SECRET, BYPASS_SECRET } from './env.js'
+const verify = require('jsonwebtoken')
+const { SHARED_SECRET, BYPASS_SECRET} = require('./env.js')
 
-export function checkAuth(req, res, next) {
-    const token = req.get('x-auth-token')
-    if (!token) {
-        return res.status(401).json({ error: 'Access denied, missing token' })
+exports.checkAuth = (req, res, next) => {
+    const { accessToken } = req.headers
+    if (!accessToken) {
+        return res.status(401).json({ error: 'Access denied!' })
     } else {
         try {
-            const payload = verify(token, SHARED_SECRET)
+            const payload = verify(accessToken, SHARED_SECRET)
             req.user = payload.user
             next()
         } catch (error) {
@@ -21,4 +21,12 @@ export function checkAuth(req, res, next) {
             }
         }
     }
+}
+
+exports.bypassAuth = (req, res, next) => {
+    const accessToken = req.get('x-auth-token')
+    if (accessToken === BYPASS_SECRET) {
+        next()
+    }
+        return res.status(401).json({ error: 'Access denied, missing token' })
 }

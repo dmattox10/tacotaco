@@ -6,13 +6,9 @@ const bodyParser = require('body-parser')
 
 require('rootpath')()
 
-
-const { connectDB } = require('config/db.js')
-
 const { APP_PORT, APP_NAME, WHITELIST_URLS } = require('./env')
-const { errorOut, operation } = require('lib/logging.js')
-const { authRouter } = require('routes/authRouter')
-const { tacoRouter } = require('routes/tacoRouter.js')
+const { errorOut, operation } = require('lib/logging')
+const { tacoRouter } = require('routes/tacoRouter')
 
 const app = express()
 
@@ -28,7 +24,6 @@ app.use(jsonParser)
 app.use(urlencodedParser)
 
 app.use('/v1/taco', tacoRouter)
-app.use('/v1/auth', authRouter)
 
 app.get('/', (req, res) => {
     res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')

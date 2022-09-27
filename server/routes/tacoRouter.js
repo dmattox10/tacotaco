@@ -1,23 +1,32 @@
-import express from 'express'
-import cors from 'cors'
-import ExpressBrute from 'express-brute'
-import { checkAuth, bypassAuth } from '../middlewares.js'
+const express = require('express')
+const ExpressBrute = require('express-brute')
 
-import { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete } from '../controllers/tacoController.js'
+const { byPassAuth, checkAuth } = require('../middlewares.js')
+const { BYPASS_SECRET, USE_AUTH } = require('../env.js')
+
+const { getRandom, getCustom, getFull, capabilities, postCustom, postFull, getComplete } = require('../controllers/tacoController.js')
 
 const store  = new ExpressBrute.MemoryStore()
 const bruteforce = new ExpressBrute(store)
 
 const tacoRouter = express.Router()
 
-tacoRouter.get('/random', cors(), getRandom)
-tacoRouter.get('/custom', cors(), getCustom)
-tacoRouter.get('/full', cors(), getFull) 
-tacoRouter.get('/complete', cors(), getComplete)
-tacoRouter.get('/capabilities', cors(), capabilities)
+// This defaults to checkAuth in case of null or anything else, must be set to false in order to bypass, as well as setting a bypass secret
+const authMethod = () => {
+    if (BYPASS_SECRET && USE_AUTH === false) {
+        return byPassAuth
+    }
+    return checkAuth
+}
 
-tacoRouter.post('/custom', cors(), bypassAuth, postCustom)
-tacoRouter.post('/full', cors(), bypassAuth, postFull)
+tacoRouter.get('/random', bruteforce.prevent,getRandom)
+tacoRouter.get('/custom', bruteforce.prevent, getCustom)
+tacoRouter.get('/full', bruteforce.prevent, getFull) 
+tacoRouter.get('/complete', bruteforce.prevent, getComplete)
+tacoRouter.get('/capabilities', bruteforce.prevent, capabilities)
 
-export { tacoRouter }
+tacoRouter.post('/custom', bruteforce.prevent, authMethod(), postCustom)
+tacoRouter.post('/full', bruteforce.prevent, authMethod(), postFull)
+
+module.exports = { tacoRouter }
 
