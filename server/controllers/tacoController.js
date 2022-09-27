@@ -57,7 +57,7 @@ function noDupes(numItems, items) {
     const indices = [...Array(items.length).keys()]
     const shuffledIndices = _.shuffle(indices)
     let output = []
-    for (let i = 0; i < numItems - 1; i++) {
+    for (let i = 0; i < numItems; i++) {
         output.push(items[shuffledIndices.pop()])
     }
     return output
