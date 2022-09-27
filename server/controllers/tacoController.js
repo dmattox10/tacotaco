@@ -77,21 +77,22 @@ const getCustom = async (req, res) => {
 const getFull = async (req, res) => {
     const { id } = req.query
     if (id) {
-        const ObjectId = mongoose.Types.ObjectId
         try {
-            let validId = ObjectId(id)
-            await Entry.findOne({ id: validId }).then(entry => {
-                if (entry) {
-                    res.status(200).json({ taco: entry })
-                } else {
-                    res.status(404).json({ error: 'no bueno.' })
-                }
-            })
-        } catch (InvalidObjectIdException) {
-            errorOut('invalid object ID')
+            const taco = await knex
+              .table('entries')
+              .where({id})
+            if (taco) {
+                return res.status(200).json( { taco: taco } )
+            }
+            return res.status(404).json({ error: 'No match found.' })
+        } catch (error) {
+            return res.status(500).json({ error: error.message})
         }
     }
-    const taco = pickRandom(tacoGod.fullTacos)
+    const tacosList = await knex
+      .table('entries')
+      .where({ category: 'full_tacos'})
+    const taco = pickRandom(tacosList)
     res.status(200).json( { taco: taco } )
 }
 
