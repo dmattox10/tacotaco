@@ -10,21 +10,21 @@ const tacoGod = {}
 
 const prepare = async () => {
 
-    const [baseLayers] = await knex
+    const baseLayers = await knex
       .table('entries')
       .where({category: 'base_layers'})
-    const [condiments] = await knex
+    const condiments = await knex
       .table('entries')
-      .where({category: 'base_layers'})
-    const [mixins] = await knex
+      .where({category: 'condiments'})
+    const mixins = await knex
       .table('entries')
-      .where({category: 'base_layers'})
-    const [seasonings] = await knex
+      .where({category: 'mixins'})
+    const seasonings = await knex
       .table('entries')
-      .where({category: 'base_layers'})
-    const [shells] = await knex
+      .where({category: 'seasonings'})
+    const shells = await knex
       .table('entries')
-      .where({category: 'base_layers'})
+      .where({category: 'shells'})
     tacoGod.baseLayers = baseLayers
     tacoGod.condiments = condiments
     tacoGod.mixins = mixins
@@ -41,6 +41,7 @@ const pickRandom = (items) => {
 
 const getRandom = async (req, res) => {
     const tacoGod = await prepare()
+    console.log(tacoGod)
     let taco = {}
     for (const [key] of Object.entries(tacoGod)) {
         if (key !== 'fullTacos') {
@@ -50,7 +51,6 @@ const getRandom = async (req, res) => {
         }
     }
     res.status(200).json({ taco: taco })
-    
 }
 
 function noDupes(numItems, items) {

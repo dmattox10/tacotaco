@@ -25,8 +25,11 @@ tacoRouter.get('/full', bruteforce.prevent, getFull)
 tacoRouter.get('/complete', bruteforce.prevent, getComplete)
 tacoRouter.get('/capabilities', bruteforce.prevent, capabilities)
 
-tacoRouter.post('/custom', bruteforce.prevent, authMethod(), postCustom)
-tacoRouter.post('/full', bruteforce.prevent, authMethod(), postFull)
+// tacoRouter.post('/custom', bruteforce.prevent, authMethod(), postCustom)
+// tacoRouter.post('/full', bruteforce.prevent, authMethod(), postFull)
+
+tacoRouter.post('/custom', bruteforce.prevent, postCustom)
+tacoRouter.post('/full', bruteforce.prevent, postFull)
 
 module.exports = { tacoRouter }
 
