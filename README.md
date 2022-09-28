@@ -18,8 +18,14 @@ There is an API using this data listed in several places but the application was
 - A custom taco randomly selecting a chosen number of ingredients in each category
 
 __Tech__
+
+- Docker
 - Express
 - ~~MongoDB❤️~~ This is another project that got a large rewrite to SQL because you should hire me.
+- Knex - Clone tacofancy per the bottom of the README then cd to knex;
+```
+npx knex seed:run #Populate the DB
+```
 
 __Execution__
 
@@ -35,15 +41,13 @@ __What I Learned__
 - Store large JSON in the DB.
 
 __The Butt__
-I don't remember why, but I just noticed that the entries categorized as "like tacos" are excluded back when I first created this, from the seeding data. I'm guessing there's some naming convention that was different for this category, I'll get right on that /s.
+
+I don't remember why, but I just noticed that the entries categorized as "like tacos" are excluded back when I first created this, from the seeding data. I'm guessing there's some naming convention that was different for this category, I'll come back around to that.
 
 ## Getting Started
 APP_PORT must match SECOND port declaration in docker-compose.yml
 
-Set the BYPASS_SECRET to send a predetermined passphrase or set SHARED_SECRET and REFRESH_SECRET as well as changing the postRoutes to use checkAuth instead of bypassAuth to use a separate JWT auth microservice like my [mx-auth](https://github.com/dmattox10/mx-auth)
-
-Token/Secret should be sent as __accessToken__ in the headers.
-
+It's an OpenAPI, so I reversed course on intergrating auth, POST.
 
 <details>
   <summary>Sample server/.env file</summary>
@@ -75,7 +79,7 @@ BYPASS_SECRET = shhh
         - ./server:/usr/src/app
         - /usr/src/app/node_modules
         ports:
-        - "5050:5000"
+        - "5050:5000" # The first port needs mapped to incoming connections via Nginx, apache, etc.
         env_file: ./server/.env
 
 
