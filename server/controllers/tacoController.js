@@ -79,15 +79,14 @@ const getCustom = async (req, res) => {
 
 const getComplete = async (req, res) => {
     const { id } = req.query
-
+    console.log(id)
+    let tacos = []
     const populateTacosList = async () => {
         const tacosList = await knex
             .table('entries')
             .where({ category: 'full_tacos'})
         return tacosList
         }
-    
-    let tacos = []
     switch(id) {
         case 'ALL':
             tacos = await populateTacosList()
@@ -102,11 +101,11 @@ const getComplete = async (req, res) => {
 
         default:
             try {
-                const taco = await knex
+                tacos = await knex
                   .table('entries')
                   .where({ id: id, category: 'full_tacos' })
-                if (taco) {
-                    res.status(200).json({ tacos: tacos })
+                if (tacos) {
+                    return res.status(200).json({ tacos: tacos })
                 }
                 return res.status(404)
             }

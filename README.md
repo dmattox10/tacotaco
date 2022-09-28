@@ -44,14 +44,21 @@ Set the BYPASS_SECRET to send a predetermined passphrase or set SHARED_SECRET an
 
 Token/Secret should be sent as __accessToken__ in the headers.
 
-__Sample server/.env file__
+
+<details>
+  <summary>Sample server/.env file</summary>
+  
 ```
 APP_PORT = 5000
 APP_NAME = tacotaco
 ENVIRONMENT = development
 BYPASS_SECRET = shhh
 ```
-__Sample docker-compose.yml__
+  
+</details>
+<details>
+  <summary>Sample docker-compose.yml</summary>
+
     ---
     version: '3.7'
 
@@ -77,21 +84,73 @@ __Sample docker-compose.yml__
     node_modules:
     web-root:
         driver: local
-__Commands__
+
+</details>
+
 ```
 docker-compose build
 docker-compose up -d
 ```
 ## Routes
 
-- __GET /v1/taco/complete?id=ID__
+- __GET /v1/taco/complete?__
 
 This route has an optional ID to get a specific complete taco having been saved by posting /taco/custom with the contents of either a custom or random taco. If an ID of ALL is sent, the entire list will be returned. If no ID is specified, it will get a random user saved taco.
+```
+complete
 
-The error handling for this in any client, is to use the length of the tacos array handed back:
+complete?id=ALL
+
+complete?id=11 (complete taco id's start at 126 but a client should get a list of completes and present options to a user)
+
+complete?id=133
+```
+
+The error handling for this in any client, is to use the length of the tacos ARRAY handed back:
  - 0 - You'll also get back a 404.
  - 1 - This is a taco
  - more than one - This is more than one taco. All of them in fact.
+<details>
+  <summary>Show sample response</summary>
+
+```{
+    "tacos": [
+        {
+            "id": 126,
+            "name": "Asian Style Tacos",
+            "category": "full_tacos",
+            "path": "../data/tacofancy/full_tacos/asian_style_tacos.md",
+            "html": "<h1 id=\"asian-style-tacos\">Asian Style Tacos</h1>\n<p>If you like a lighter asian style taco with no cheese, give this one a try. Use tofu to make these vegetarian-friendly!</p>\n<ol>\n<li>Using the <a href=\"../base_layers/asian_marinade.md\">asian marinade</a>, prepare some tofu or sliced pork</li>\n<li>Make some guacamole (add in a teaspoon of sesame oil and toasted sesame seeds to your recipe)</li>\n<li>Top with <a href=\"../condiments/pickled_vegetables.md\">asian pickled veggies</a></li>\n<li>And <a href=\"../condiments/asian_cabbage.md\">cabbage slaw</a></li>\n<li><strong>NOM</strong></li>\n</ol>\n<p>tags: vegetarian, vegan</p>\n",
+            "likes": null,
+            "created_at": "2022-09-27 06:27:41",
+            "updated_at": "2022-09-27 06:27:41"
+        },
+        {
+            "id": 127,
+            "name": "Baja Fish Tacos",
+            "category": "full_tacos",
+            "path": "../data/tacofancy/full_tacos/baja_fish_tacos.md",
+            "html": "....",
+            "likes": null,
+            "created_at": "2022-09-27 06:27:41",
+            "updated_at": "2022-09-27 06:27:41"
+        },
+        {
+            "id": 128,
+            "name": "# Beef soft tacos\r",
+            "category": "full_tacos",
+            "path": "../data/tacofancy/full_tacos/beef_soft_tacos.md",
+            "html": "....",
+            "likes": null,
+            "created_at": "2022-09-27 06:27:41",
+            "updated_at": "2022-09-27 06:27:41"
+        },
+        ....
+    ]
+}
+```
+
+</details>
 
 - __GET /v1/taco/custom?__
 
@@ -100,74 +159,137 @@ This route returns a custom taco using query parameters as follows:
 baseLayers=2&condiments=2&mixins=2&seasonings=2&shells=2
 ```
 this will yield 2 of each of the optional parameters in the taco with a reply such as:
-```
-{ taco: {
-    baseLayers: ARRAY,
-    condiments: ARRAY,
-    mixins: ARRAY,
-    seasonings: ARRAY,
-    shells: ARRAY
-}}
-```
-any one of the items in any of those arrays is expected to have the structure:
-```
-{ _id: ObjectID,
-  category: STRING,
-  name: STRING,
-  html: STRING
-}
-```
-html is the original markdown "card" rendered to html as intended by the author.
+<details>
+  <summary>Show sample response</summary>
 
-- __POST /v1/taco/custom__
-
-This route accepts entries for "Custom", "Random", and "Complete"
-This route expects a raw JSON body containing:
 ```
 {
-    id: ObjectID,
-    ids: ARRAY,
-    vote: BOOLEAN,
-    name: STRING
+    "taco": {
+        "baseLayers": [
+            [
+                {
+                    "id": 42,
+                    "name": "# Spaghetti Squash",
+                    "category": "base_layers",
+                    "path": "../data/tacofancy/base_layers/spaghetti_squash.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                },
+                {
+                    "id": 33,
+                    "name": "Puerco Pibil",
+                    "category": "base_layers",
+                    "path": "../data/tacofancy/base_layers/puerco_pibil.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                }
+            ]
+        ],
+        "condiments": [
+            [
+                {
+                    "id": 84,
+                    "name": "Simple Salsa Verde",
+                    "category": "condiments",
+                    "path": "../data/tacofancy/condiments/simple_salsa_verde.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                },
+                {
+                    "id": 65,
+                    "name": "Gochujang Cucumbers",
+                    "category": "condiments",
+                    "path": "../data/tacofancy/condiments/gochjang_cucumbers.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                }
+            ]
+        ],
+        "mixins": [
+            [
+                {
+                    "id": 103,
+                    "name": "Pomegranate Seeds",
+                    "category": "mixins",
+                    "path": "../data/tacofancy/mixins/pomegranate_seeds.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                },
+                {
+                    "id": 93,
+                    "name": "Shredded Brussels Sprouts",
+                    "category": "mixins",
+                    "path": "../data/tacofancy/mixins/brussels.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                }
+            ]
+        ],
+        "seasonings": [
+            [
+                {
+                    "id": 111,
+                    "name": "Mahi Mahi Rub",
+                    "category": "seasonings",
+                    "path": "../data/tacofancy/seasonings/mahimahirub.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                },
+                {
+                    "id": 109,
+                    "name": "Chipotle Rub",
+                    "category": "seasonings",
+                    "path": "../data/tacofancy/seasonings/chipotle_rub.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                }
+            ]
+        ],
+        "shells": [
+            [
+                {
+                    "id": 121,
+                    "name": "Hard Corn Shells (Traditional; US)",
+                    "category": "shells",
+                    "path": "../data/tacofancy/shells/hard_corn_traditional_us.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                },
+                {
+                    "id": 124,
+                    "name": "naan",
+                    "category": "shells",
+                    "path": "../data/tacofancy/shells/naan.md",
+                    "html": "....",
+                    "likes": null,
+                    "created_at": "2022-09-27 06:27:41",
+                    "updated_at": "2022-09-27 06:27:41"
+                }
+            ]
+        ]
+    }
 }
 ```
-The id is the _id of the custom taco from the GET (if it existed because this route also covers random tacos), ids are all of the components in the taco, the vote is true or false depending on like or dislike, and the name is only able to be edited if the combo was previously without a custom name.
-
-- __GET /v1/taco/full__
-
-This route returns a randomly chosen taco from the list of pre-constructed full taco recipes that exist in the data from tacofancy. 
-This route requires special handling contrasting how the other two taco routes are designed to provide a response that can be rendered by the same client logic.
-```
-{ _id: ObjectID,
-  category: STRING,
-  name: STRING,
-  html: STRING
-}
-```
+</details>
 html is the original markdown "card" rendered to html as intended by the author.
-
-- __POST /v1/taco/full__
-
-This route allows for likes/dislikes on a full, precreated taco from the tacofancy data. The server expects a raw JSON body containing:
-```
-{
-    id: ObjectID, 
-    vote: BOOLEAN
-}
-
-- __GET /taco/random__
-```
-This route returns a randomly chosen taco using one item from each 
-category, the outputs in the reply are arrays for consistency.
-```
-{ taco: {
-    baseLayers: ARRAY,
-    condiments: ARRAY,
-    mixins: ARRAY,
-    seasonings: ARRAY,
-    shells: ARRAY
-}}
-```
 
 #### Credits:
-- Taco Data in server/data/tacofancy from https://github.com/sinker/tacofancy.git
+- Taco Data needs cloned into server/data/ (server/data/tacofancy) from https://github.com/sinker/tacofancy.git
