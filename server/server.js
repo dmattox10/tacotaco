@@ -16,7 +16,7 @@ const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.use(cors({
-  origin: WHITELIST_URLS
+  origin: WHITELIST_URLS.split(',')
 }))
 app.use(helmet())
 app.use(morgan('dev'))

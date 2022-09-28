@@ -5,7 +5,7 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     image: tacotaco-server
     container_name: server
     command: /usr/src/app/node_modules/.bin/nodemon server.js
