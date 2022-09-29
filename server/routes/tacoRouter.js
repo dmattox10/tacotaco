@@ -6,7 +6,7 @@ const ExpressBrute = require('express-brute')
 
 const { getRandom, getCustom, getComplete } = require('../controllers/tacoController.js')
 
-const store  = new ExpressBrute.MemoryStore()
+const store = new ExpressBrute.MemoryStore()
 const bruteforce = new ExpressBrute(store)
 
 const tacoRouter = express.Router()
@@ -19,9 +19,8 @@ const tacoRouter = express.Router()
 //     return checkAuth
 // }
 
-tacoRouter.get('/random', bruteforce.prevent,getRandom)
+tacoRouter.get('/random', bruteforce.prevent, getRandom)
 tacoRouter.get('/custom', bruteforce.prevent, getCustom)
 tacoRouter.get('/complete', bruteforce.prevent, getComplete)
 
 module.exports = { tacoRouter }
-

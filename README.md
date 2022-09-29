@@ -1,5 +1,7 @@
 # MMMMMM Tacos.
 This API will serve up delicious combinations (with config options) of tacos!
+
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 <hr>
 
 live [HERE](https://tacotaco.danielmattox.com)

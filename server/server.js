@@ -26,22 +26,22 @@ app.use(urlencodedParser)
 app.use('/v1/taco', tacoRouter)
 
 app.get('/', (req, res) => {
-    res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
+  res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
 })
 const PORT = APP_PORT || 5050
 app.listen(PORT, () => console.log(`'Ello ${APP_NAME}.`))
 
-function handle(signal) {
-    errorOut(`=> Received event:`, signal)
- }
+function handle (signal) {
+  errorOut('=> Received event:', signal)
+}
 
- async function closeGracefully(signal) {
-    operation(`=> Received signal to terminate:`, signal)
-  
-    // await db.close() if we have a db connection in this app
-    // await other things we should cleanup nicely
-    process.exit()
- }
+async function closeGracefully (signal) {
+  operation('=> Received signal to terminate:', signal)
+
+  // await db.close() if we have a db connection in this app
+  // await other things we should cleanup nicely
+  process.exit()
+}
 
 process.on('SIGINT', closeGracefully)
 process.on('SIGTERM', closeGracefully)
