@@ -54,7 +54,7 @@ const getRandom = async (req, res) => {
 }
 
 // At the end of mixing things up, remove and REPLACE any duplicates
-function noDupes (numItems, items) {
+const noDupes = (numItems, items) => {
   const indices = [...Array(items.length).keys()]
   const shuffledIndices = _.shuffle(indices)
   const output = []
@@ -114,4 +114,4 @@ const getComplete = async (req, res) => {
   }
 }
 
-module.exports = { getRandom, getCustom, getComplete }
+module.exports = { getRandom, getCustom, getComplete, prepare }

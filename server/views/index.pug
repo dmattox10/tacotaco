@@ -1,0 +1,57 @@
+doctype html
+html
+    head
+        block head
+            meta(charset=utf-8)
+            meta(viewport='viewport' content='width=device-width, initial-scale=1.0')
+            link(rel='stylesheet', href='/css/style.css')
+
+            script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" crossorigin="anonymous")
+    body 
+        script.
+            $(window).on("load resize ", function() {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right':scrollWidth});
+            }).resize();
+        div(class="container")
+            div(class="main-window")
+                div(class="navigation")
+                    div(class="navigator")
+                        span(class="icon red")
+                    div(class="navigator")
+                        span(class="icon yellow")
+                    div(class="navigator")
+                        span(class="icon green")
+                div(class="window-content")
+                    section
+                        h1 TacoTaco
+                        div(class="tbl-content")
+                            table(cellpadding="0" cellspacing="0" border="0")
+                                tbody 
+                                    each val, key in fields
+                                        tr
+                                            td= key
+                                            td= val
+                div(class="made-with-love")
+                    Made with 
+                    i ♥
+                    by
+                    a(href="https://github.com/dmattox10/tacotaco") Daniel Mattox
+
+
+<div class="main-window">
+  <div class="navigation">
+    <div class="navigator">
+    <span class="icon red"></sapn>
+    </div>
+    <div class="navigator">
+    <span class="icon yellow"></sapn>
+    </div>
+    <div class="navigator">
+    <span class="icon green"></sapn>
+    </div>
+  </div>
+  <div class="winodw-content">
+  </div>
+</div>
+</div>
