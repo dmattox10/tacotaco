@@ -17,7 +17,8 @@ const {
 const WHITELIST_URLS_LIST = () => {
   if (WHITELIST_URLS) {
     if ([WHITELIST_URLS].length > 1) {
-      WHITELIST_URLS_LIST = WHITELIST_URLS.split(',')
+      const WHITELIST_URLS_LIST_OUT = WHITELIST_URLS.split(',')
+      return WHITELIST_URLS_LIST_OUT
     }
     return WHITELIST_URLS
   }

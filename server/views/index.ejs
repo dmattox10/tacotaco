@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Taco Taco!</title>
+        <meta charset="utf-8">
+        <meta viewport="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet", href="/public/css/bootstrap.min.css">
+        <link rel="stylesheet", href="/public/css/style.css">
+        <script type="text/javascript" src="/public/js/jquery-3.6.1.min.js"></script>
+        <script type="text/javascript" src="/public/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            $(window).on("load resize", function() {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width()
+            $('.tbl-header').css({'padding-right':scrollWidth})
+            }).resize()
+        </script>
+        <div class="content">
+            <div class="row">
+                <div class="columns column-3">
+
+                </div>
+                <div class="columns column-6">
+                    <div class="main-window">
+                        <div class="navigation">
+                            <div class="navigator">
+                                <span class="icon red"></span>
+                            </div>
+                            <div class="navigator">
+                                <span class="icon yellow"></span>
+                            </div>
+                            <div class="navigator">
+                                <span class="icon green"></span>
+                            </div>
+                        </div>
+                        <div class="window-content">
+                            <section>
+                                <h1>TacoTaco API serving TacoFancy!</h1>
+                                <div class="tbl-header">
+                                    <table cellpadding="0" cellspacing="0" border="0">
+                                        <thead>
+                                            <tr>
+                                                <div class="col-sm-9 col-md-6">
+                                                    <th>Category</th>
+                                                </div>
+                                                <div class="col-sm-3 col-md-6">
+                                                    <th>Entries</th>
+                                                </div>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="tbl-content">
+                                    <table cellpaddin="0" cellspacing="0" border="0">
+                                        <tbody>
+                                            <% Object.keys(count).forEach((key) => { %>
+                                                <tr>
+                                                    <div class="col-sm-9 col-md-6">
+                                                        <td><%= key %></td>
+                                                    </div>
+                                                    <div class="col-sm-3 col-md-6">
+                                                        <td><%= count[key] %></td>
+                                                    </div>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="made-with-love">
+                            Made with <i>♥ </i> by <a href="https://danielmattox.com">Daniel Mattox</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

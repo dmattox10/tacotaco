@@ -1,12 +1,9 @@
-// import { status, errorOut, entry, operation } from '../lib/logging.js'
-// import Entry from '../models/entry.js'
-// import Complete from '../models/complete.js'
 const _ = require('lodash')
 const knex = require('../knex/knex')
 const { errorOut } = require('../lib/logging')
-// import mongoose from 'mongoose'
 
 const tacoGod = {}
+
 // Gets each category out of the DB and ready to send
 const prepare = async () => {
   const baseLayers = await knex

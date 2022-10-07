@@ -42,6 +42,11 @@ __What I Learned__
 - Parse markdown files (a shame there's no metadata!)
 - Store large JSON in the DB.
 
+__What Else?__
+
+- Uses EJS to render the index page
+- No Bootstrap or other UI libraries
+
 __The Butt__
 
 I don't remember why, but I just noticed that the entries categorized as "like tacos" are excluded back when I first created this, from the seeding data. I'm guessing there's some naming convention that was different for this category, I'll come back around to that.

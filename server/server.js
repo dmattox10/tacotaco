@@ -7,10 +7,11 @@ const path = require('path')
 
 require('rootpath')()
 
-const { APP_PORT, APP_NAME, WHITELIST_URLS_LIST } = require('./env')
+const { APP_PORT, WHITELIST_URLS_LIST, ENVIRONMENT } = require('./env')
 const { errorOut, operation } = require('lib/logging')
 const { tacoRouter } = require('routes/tacoRouter')
-const { populate } = require('./controllers/tacoController')
+const { prepare } = require('./controllers/tacoController')
+const { development } = require('./knex/knexfile')
 const app = express()
 
 const jsonParser = bodyParser.json()
@@ -28,40 +29,51 @@ if (!Object.entries) {
 }
 
 const getCount = async () => {
-  const tacoGod = await populate()
+  const tacoGod = await prepare()
   const response = {}
   for (const [key, value] of Object.entries(tacoGod)) {
-    response.push({[key]: value.length})
+    response[key] = value.length
   }
+  console.log(response)
   return response
 }
 
-app.use(cors({
-  origin: WHITELIST_URLS_LIST
-}))
+if (ENVIRONMENT !== "development") {
+  app.use(cors({
+    origin: WHITELIST_URLS_LIST
+  }))
+}
+
 app.use(helmet())
 app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
-app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname + '/')));
 app.use(express.static(path.join(__dirname, "public")));
-app.set('view engine', 'pug');
 
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname)
+
+app.use('/', async (req, res, next) => {
+  const count = await getCount()
+  res.render('views/index.ejs', { count })
+  next()
+})
 app.use('/v1/taco', tacoRouter)
 
 // app.get('/', (req, res) => {
 //   res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
 // })
 
-
-
 const PORT = APP_PORT || 5050
 app.listen(PORT, () => console.log(`'Ello ${APP_PORT}.`))
 
-app.get('/', async (req, res) => {
-  const count = await getCount()
-  res.render('index', { fields: count })
-})
+// app.get('/', async (req, res) => {
+//   const count = await getCount()
+//   console.log(count)
+//   res.render('index', { fields: count })
+// })
 
 function handle (signal) {
   errorOut('=> Received event:', signal)
