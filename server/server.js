@@ -48,8 +48,9 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
-app.use(express.static(path.join(__dirname + '/')));
-app.use(express.static(path.join(__dirname, "public")));
+
+app.use('/public', express.static(path.join(__dirname + '/public')))
+
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
