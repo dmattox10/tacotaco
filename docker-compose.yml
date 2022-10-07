@@ -6,37 +6,18 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    image: tacotaco-server
-    container_name: server
-    command: /usr/src/app/node_modules/.bin/nodemon server.js
+    image: tacotaco
+    container_name: tacotaco
+    hostnamt: tacotaco
+    command: /usr/src/app/node_modules/.bin/node server.js
     volumes:
       - ./server:/usr/src/app
       - /usr/src/app/node_modules
     ports:
-      - "5050:5000"
-    depends_on:
-      - mongo
+      - "5000:5000"
     env_file: ./server/.env
     environment:
-      - NODE_ENV=development
-    networks:
-      - tacotaco-network
-  mongo:
-    image: mongo
-    container_name: mongo
-    environment: 
-      MONGO_INITDB_ROOT_USERNAME: REDACTED
-      MONGO_INITDB_ROOT_PASSWORD: REDACTED
-    volumes:
-      - ./testing/db:/data/db
-    ports:
-      - "27017:27017"
-    networks:
-      - tacotaco-network
-
-networks:
-  tacotaco-network:
-    driver: bridge
+      - ENVIRONMENT=development
 
 volumes:
   data-volume:
