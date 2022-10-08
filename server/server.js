@@ -7,11 +7,10 @@ const path = require('path')
 
 require('rootpath')()
 
-const { APP_PORT, WHITELIST_URLS_LIST, ENVIRONMENT } = require('./env')
+const { APP_PORT } = require('./env')
 const { errorOut, operation } = require('lib/logging')
 const { tacoRouter } = require('routes/tacoRouter')
 const { prepare } = require('./controllers/tacoController')
-const { development } = require('./knex/knexfile')
 const app = express()
 
 const jsonParser = bodyParser.json()
@@ -36,12 +35,6 @@ const getCount = async () => {
   }
   console.log(response)
   return response
-}
-
-if (ENVIRONMENT !== "development") {
-  app.use(cors({
-    origin: WHITELIST_URLS_LIST
-  }))
 }
 
 app.use(helmet())
