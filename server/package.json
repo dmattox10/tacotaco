@@ -7,9 +7,9 @@
   "scripts": {
     "dev": "nodemon ./server.js",
     "start": "node ./server.js",
-    "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback",
-    "seed": "knex seed:run"
+    "migrate": "cd knex && knex migrate:latest",
+    "rollback": "cd knex && knex migrate:rollback",
+    "seed": "cd knex && knex seed:run"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
