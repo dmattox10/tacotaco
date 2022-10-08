@@ -6,7 +6,10 @@
   "private": false,
   "scripts": {
     "dev": "nodemon ./server.js",
-    "start": "node ./server.js"
+    "start": "node ./server.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
   },
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
