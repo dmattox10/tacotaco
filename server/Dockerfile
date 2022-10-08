@@ -2,9 +2,10 @@
 FROM node:16-alpine AS build
 RUN apk --no-cache add git
 WORKDIR /usr/src/app
-COPY package*.json ./
-RUN yarn && yarn migrate
+COPY . .
+RUN yarn
 RUN cd data && git clone --depth=1 https://github.com/dansinker/tacofancy.git
+RUN yarn migrate
 
 # Seed
 FROM node:16-alpine AS seed
