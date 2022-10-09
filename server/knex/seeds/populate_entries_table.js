@@ -1,4 +1,4 @@
-const { populate } = require('/data/populate')
+const { populate } = require('../../data/populate')
 
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
