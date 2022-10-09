@@ -3,7 +3,7 @@ FROM node:16-alpine AS build
 RUN apk --no-cache add git
 WORKDIR /usr/src/app
 COPY . .
-RUN yarn && yarn migrate && yarn seed
+RUN yarn && yarn migrate --env=staging && yarn seed --env=staging
 
 # Deploy
 FROM node:16-alpine
