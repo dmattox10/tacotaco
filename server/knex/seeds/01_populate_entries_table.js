@@ -6,11 +6,12 @@ exports.seed = async function (knex) {
   const finalEntries = await populate()
   finalEntries.forEach(async entry => {
     // await knex('entries').insert(entry)
-    await knex('entries').insert({
+    await knex('entries').returning('id').insert({
       category: entry.category,
       name: entry.name,
       html: entry.html,
       path: entry.path
-    })
+    }).then(id => console.log(id))
+    
   })
 }
