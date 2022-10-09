@@ -17,7 +17,7 @@ services:
     env_file: ./server/.env
     environment:
       - ENVIRONMENT=staging
-    restart: on-failure
+    restart: unless-stopped
     command: bash -c "yarn knex && yarn start"
 
 volumes:
