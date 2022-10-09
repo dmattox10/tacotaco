@@ -1,7 +1,9 @@
 # Build, get seed data
 FROM node:16-alpine AS build
+RUN apk --no-cache add git
 WORKDIR /usr/src/app
 COPY . .
+RUN cd data && git clone --depth=1 https://github.com/dansinker/tacofancy.git
 RUN yarn && yarn database && yarn migrate && yarn seed
 
 # Deploy
