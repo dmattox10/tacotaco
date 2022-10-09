@@ -42,7 +42,7 @@ app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'))
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
@@ -53,20 +53,11 @@ app.use('/', async (req, res, next) => {
   res.render('views/index.ejs', { count })
   next()
 })
-app.use('/v1/taco', tacoRouter)
 
-// app.get('/', (req, res) => {
-//   res.send('<h2>“The code is more what you’d call ‘guidelines’ than actual rules.” – Hector Barbossa</h2>')
-// })
+app.use('/v1/taco', tacoRouter)
 
 const PORT = APP_PORT || 5050
 app.listen(PORT, () => console.log(`'Ello ${APP_PORT}.`))
-
-// app.get('/', async (req, res) => {
-//   const count = await getCount()
-//   console.log(count)
-//   res.render('index', { fields: count })
-// })
 
 function handle (signal) {
   errorOut('=> Received event:', signal)

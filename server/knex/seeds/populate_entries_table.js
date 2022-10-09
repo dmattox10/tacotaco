@@ -5,6 +5,7 @@ exports.seed = async function (knex) {
   await knex('entries').del()
   const finalEntries = await populate()
   finalEntries.forEach(async entry => {
+    console.log(entry)
     await knex('entries').insert(entry)
   })
 }
