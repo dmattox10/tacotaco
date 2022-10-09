@@ -11,7 +11,6 @@ exports.seed = async function (knex) {
       name: entry.name,
       html: entry.html,
       path: entry.path
-    }).then(id => console.log(id))
-    
+    })
   })
 }
