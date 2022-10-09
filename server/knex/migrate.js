@@ -4,7 +4,7 @@ const { DB_HOST, DB_USER, DB_PASS, DB_NAME, APP_NAME } = require('../env.js')
 // You can dynamically pass the database name
 // as a command-line argument, or obtain it from
 // a .env file
-const databaseName = DB_NAME || tacotaco
+const databaseName = DB_NAME || 'tacotaco'
 
 const connection = {
   host: DB_HOST,
