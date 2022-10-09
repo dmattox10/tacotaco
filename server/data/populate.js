@@ -17,7 +17,7 @@ if (!Object.entries) {
 
 exports.populate = async () => {
   const finalEntries = []
-  const tree = await DirectoryTree('../../data/tacofancy') //relative to the seeds function that runs?
+  const tree = await DirectoryTree(path.join(__dirname, 'tacofancy')) //relative to the seeds function that runs?
   const children = tree.children
   const output = {
     base_layers: [],
