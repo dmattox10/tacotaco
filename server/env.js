@@ -8,22 +8,7 @@ const {
   DB_PASS,
   DB_NAME,
   ENVIRONMENT,
-  REFRESH_SECRET,
-  SHARED_SECRET,
-  USE_AUTH,
-  WHITELIST_URLS
 } = process.env
-
-const WHITELIST_URLS_LIST = () => {
-  if (WHITELIST_URLS) {
-    if ([WHITELIST_URLS].length > 1) {
-      const WHITELIST_URLS_LIST_OUT = WHITELIST_URLS.split(',')
-      return WHITELIST_URLS_LIST_OUT
-    }
-    return WHITELIST_URLS
-  }
-}
-
 
 module.exports = {
   APP_PORT,
@@ -32,9 +17,5 @@ module.exports = {
   DB_USER,
   DB_PASS,
   DB_NAME,
-  ENVIRONMENT,
-  REFRESH_SECRET,
-  SHARED_SECRET,
-  USE_AUTH,
-  WHITELIST_URLS_LIST
+  ENVIRONMENT
 }
