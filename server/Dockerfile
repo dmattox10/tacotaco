@@ -2,7 +2,7 @@
 FROM node:16-alpine AS build
 WORKDIR /usr/src/app
 COPY . .
-RUN yarn && yarn migrate
+RUN yarn && yarn database && yarn migrate && yarn seed
 
 # Deploy
 FROM node:16-alpine
