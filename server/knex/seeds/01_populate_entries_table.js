@@ -4,5 +4,5 @@ exports.seed = async function (knex) {
   // Deletes ALL existing entries
   await knex('entries').del()
   const finalEntries = await populate()
-  await knex('entries').returning('id').insert(finalEntries)
+  await knex('entries').insert(finalEntries)
 }
