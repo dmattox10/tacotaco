@@ -37,6 +37,7 @@ async function main() {
 
   await knex.seed.run()
   // Done!!
+  
 }
 
 main().catch(console.log).then(process.exit)
