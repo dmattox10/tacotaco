@@ -11,7 +11,7 @@ const connection = {
 
 async function main() {
   let knex = Knex({
-    client: 'mysql',
+    client: 'mysql2',
     connection
   })
   
