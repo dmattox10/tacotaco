@@ -2,6 +2,7 @@
 const { marked } = require('marked')
 const fs = require('fs')
 const DirectoryTree = require('directory-tree-promise')
+const path = require('path')
 
 // This detects whether or not we need the polyfill
 if (!Object.entries) {
