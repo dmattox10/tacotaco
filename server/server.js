@@ -42,7 +42,7 @@ app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
 
-app.use(express.static('public/'))
+app.use(express.static(__dirname + '/public/'))
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
