@@ -42,15 +42,15 @@ app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
 
-app.use(express.static(__dirname + '/public/'))
-app.use(express.static(__dirname + '/views/'))
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
+app.set('views', path.join(__dirname, '/views/'))
+app.use('/public', express.static(path.join(__dirname, '/public/')))
 
 app.use('/', async (req, res, next) => {
   const count = await getCount()
-  return res.render('views/index.ejs', { count })
+  return res.render('index.ejs', { count })
 })
 
 app.use('/v1/taco', tacoRouter)
