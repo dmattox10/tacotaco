@@ -50,7 +50,7 @@ app.set('view engine', 'html');
 
 app.use('/', async (req, res, next) => {
   const count = await getCount()
-  return res.render('/views/index.ejs', { count })
+  return res.render('views/index.ejs', { count })
 })
 
 app.use('/v1/taco', tacoRouter)
