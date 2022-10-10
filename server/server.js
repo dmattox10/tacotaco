@@ -42,18 +42,17 @@ app.use(morgan('dev'))
 app.use(jsonParser)
 app.use(urlencodedParser)
 
-
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.set('/views', path.join(__dirname, '/views/'))
 app.use('/public', express.static(path.join(__dirname, '/public/')))
 
+app.use('/v1/taco', tacoRouter)
+
 app.use('/', async (req, res, next) => {
   const count = await getCount()
   return res.render('index.ejs', { count })
 })
-
-app.use('/v1/taco', tacoRouter)
 
 const PORT = APP_PORT || 5050
 app.listen(PORT, () => console.log(`'Ello ${APP_PORT}.`))
