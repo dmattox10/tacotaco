@@ -13,6 +13,8 @@ const { tacoRouter } = require('routes/tacoRouter')
 const { prepare } = require('./controllers/tacoController')
 const app = express()
 
+const { calculate } = require('./data/populate')
+
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -26,6 +28,8 @@ if (!Object.entries) {
     return resArray
   }
 }
+
+calculate()
 
 const getCount = async () => {
   const tacoGod = await prepare()

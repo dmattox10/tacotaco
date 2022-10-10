@@ -29,6 +29,8 @@ exports.populate = async () => {
     full_tacos: []
   }
   const realTacos = children.filter(child => child.name !== 'like_tacos') // No impostors here!
+  
+  //Sorting
   realTacos.forEach(tacoItem => {
     for (const [key] of Object.entries(output)) {
       if (key === tacoItem.name) {
@@ -37,6 +39,7 @@ exports.populate = async () => {
     }
   })
 
+  // mutating
   for (const [key] of Object.entries(output)) {
     const itemCategory = key
     const categories = output[key]
@@ -58,4 +61,20 @@ exports.populate = async () => {
     })
   }
   return finalEntries
+}
+
+exports.calculate = async () => {
+  const tree = await DirectoryTree(path.join(__dirname, 'tacofancy')) //relative to the seeds function that runs?
+  const children = tree.children
+  let maxLength = 0;
+  children.forEach(child => {
+    if (child.path.split('.').pop() === 'md' && child.path.toLowerCase().indexOf('readme') === -1) { // Markdown only, skip readmes!
+      const fileContents = fs.readFileSync(child.path, 'utf8')
+      const html = marked.parse(fileContents)
+      if (html.length > maxLength) {
+        maxLength = html.length
+      }
+    }
+  })
+  console.log(maxLength * 2)
 }

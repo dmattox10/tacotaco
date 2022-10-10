@@ -4,7 +4,7 @@ exports.up = function (knex, Promise) {
     table.string('name').unique().notNullable()
     table.string('category').notNullable()
     table.string('path').notNullable()
-    table.string('html').notNullable()
+    table.string('html', 22484).notNullable()
     table.json('likes')
     table.timestamps(true, true)
   })
