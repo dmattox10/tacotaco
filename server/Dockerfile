@@ -1,6 +1,5 @@
 # Build
 FROM node:16-alpine AS build
-RUN apk --no-cache add git
 WORKDIR /usr/src/app
 COPY . .
 RUN yarn
