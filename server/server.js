@@ -43,15 +43,14 @@ app.use(jsonParser)
 app.use(urlencodedParser)
 
 app.use(express.static(__dirname + '/public/'))
+app.use(express.static(__dirname + '/views/'))
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.set('views', __dirname)
 
 app.use('/', async (req, res, next) => {
   const count = await getCount()
-  res.render('views/index.ejs', { count })
-  next()
+  return res.render('/views/index.ejs', { count })
 })
 
 app.use('/v1/taco', tacoRouter)
