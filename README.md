@@ -44,8 +44,7 @@ __What I Learned__
 
 __What Else?__
 
-- Uses EJS to render the index page
-- No Bootstrap or other UI libraries
+- Uses EJS to render the index landing page
 
 __The Butt__
 
@@ -54,7 +53,7 @@ I don't remember why, but I just noticed that the entries categorized as "like t
 ## Getting Started
 APP_PORT must match SECOND port declaration in docker-compose.yml
 
-It's an OpenAPI, so I reversed course on intergrating auth, POST.
+It's an OpenAPI, so I reversed course on intergrating auth, POST, at least for now.
 
 <details>
   <summary>Sample server/.env file</summary>
@@ -63,7 +62,6 @@ It's an OpenAPI, so I reversed course on intergrating auth, POST.
 APP_PORT = 5000
 APP_NAME = tacotaco
 ENVIRONMENT = development
-BYPASS_SECRET = shhh
 ```
   
 </details>
@@ -303,4 +301,4 @@ this will yield 2 of each of the optional parameters in the taco with a reply su
 html is the original markdown "card" rendered to html as intended by the author.
 
 #### Credits:
-- Taco Data needs cloned into server/data/ (server/data/tacofancy) from https://github.com/sinker/tacofancy.git
+- Taco Data gets cloned into server/data/ from https://github.com/sinker/tacofancy.git
