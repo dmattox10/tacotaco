@@ -1,6 +1,7 @@
 
 body{
   background: d8dee9;
+  overflow-x: hidden;
 }
 
 .content {
@@ -170,7 +171,7 @@ min-height: 50px;
   background: #2e3440;
   border-radius: 1em;
   height: auto;
-  width: 35em;
+  /* width: 35em; */
 }
 .navigator{
   display: inline-block;
