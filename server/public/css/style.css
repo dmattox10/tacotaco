@@ -1,0 +1,282 @@
+
+body{
+  background: d8dee9;
+  overflow-x: hidden;
+}
+
+.content {
+padding: 2rem;
+}
+
+.rows,
+.columns,
+.columni {
+  box-sizing: border-box;
+}
+
+.rows:before,
+.rows:after {
+  content: " ";
+  display: table;
+}
+
+.rows:after {
+  clear: both;
+}
+
+.columns,
+.columni {
+  position: relative;
+  float: left;
+  display: block;
+}
+
+.columns + .columns {
+  margin-left: 1.6%;
+}
+
+.spacer {
+width: 5%; /*CHANGED THIS FROM 5.75%*/
+position: relative;
+float: left;
+display: block;
+box-sizing: border-box;
+}
+
+.column-1 {
+  width: 6.86666666667%;
+}
+
+.column-2 {
+  width: 15.3333333333%;
+}
+
+.column-3 {
+  width: 23.8%;
+}
+
+.column-4 {
+  width: 32.2666666667%;
+}
+
+.column-5 {
+  width: 40.7333333333%;
+}
+
+.column-6 {
+  width: 49.2%;
+}
+
+.column-7 {
+  width: 57.6666666667%;
+}
+
+.column-8 {
+  width: 66.1333333333%;
+}
+
+.column-9 {
+  width: 74.6%;
+}
+
+.column-10 {
+  width: 83.0666666667%;
+}
+
+.column-11 {
+  width: 91.5333333333%;
+}
+
+.column-12 {
+  width: 100%;
+  margin-left: 0;
+}
+
+@media only screen and (max-width: 550px) {
+  .column-1,
+  .column-2,
+  .column-3,
+  .column-4,
+  .column-5,
+  .column-6,
+  .column-7,
+  .column-8,
+  .column-9,
+  .column-10,
+  .column-11,
+  .column-12 {
+      float: none;
+      width: auto;
+  }
+
+  .columns + .columns {
+      margin-left: 0;
+  }
+}
+
+/*------------------------------*\
+  Styling
+\*------------------------------*/
+/*
+body {
+  padding: 20px;
+}
+*/
+.spacer {
+padding: 5px;
+min-height: 40px;
+}
+.columns {
+  min-height: 50px;
+  /*text-align: center;*/
+}
+
+.columni {
+padding: 5px;
+min-height: 50px;
+}
+
+.rows {
+  margin-bottom: 10px;
+}
+
+.rows:last-child {
+  margin-bottom: 0;
+}
+
+.columns .columns {
+  color: #eee;
+  background: #333;
+  border-color: #000;
+}
+
+@media only screen and (max-width: 550px) {
+  .rows {
+      margin-bottom: 0;
+  }
+  .columns {
+      margin-bottom: 10px;
+  }
+  .rows:last-child .columns:last-child {
+      margin-bottom: 0;
+  }
+}
+
+.container{
+  padding: 2em;
+}
+
+.main-window{
+  padding: 1.2em;
+  background: #2e3440;
+  border-radius: 1em;
+  height: auto;
+  /* width: 35em; */
+}
+.navigator{
+  display: inline-block;
+  padding: 0.5em;
+}
+.icon{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+.red{
+  background-color: #bf616a;
+}
+.yellow{
+  background-color: #ebcb8b;
+}
+.green{
+  background-color: #a3be8c;
+}
+ 
+h1{
+  font-size: 30px;
+  color: #eceff4;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.made-with-love {
+  margin-top: 40px;
+  padding: 10px;
+  clear: left;
+  text-align: center;
+  font-size: 10px;
+  font-family: arial;
+  color: #d8dee9;
+}
+.made-with-love i {
+  font-style: normal;
+  color: #bf616a;
+  font-size: 14px;
+  position: relative;
+  top: 2px;
+}
+.made-with-love a {
+  color: #d8dee9;
+  text-decoration: none;
+}
+.made-with-love a:hover {
+  text-decoration: underline;
+}
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px #2e3440; 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px #2e3440; 
+}
+
+table{
+  width:100%;
+  table-layout: fixed;
+}
+.tbl-header{
+  background-color: #d8dee9;
+  border-radius: 1em 1em 0 0;
+ }
+.tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid #d8dee9;
+  border-radius: 0 0 1em 1em;
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 12px;
+  color: #4c566a;
+  text-transform: uppercase;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #d8dee9;
+  border-bottom: solid 1px rgba(255,255,255,0.1);
+}
+  
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body{
+  background: -webkit-linear-gradient(left, #8fbcbb, #8fbcbb);
+  background: linear-gradient(to right, #8fbcbb, #8fbcbb);
+  font-family: 'Roboto', sans-serif;
+}
+section{
+  margin: 50px;
+}
